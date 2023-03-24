@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
 import TicTacToe from './pages/TicTacToe/TicTacToe';
 import TimeMachine from './pages/TimeMachine/TimeMachine';
 
