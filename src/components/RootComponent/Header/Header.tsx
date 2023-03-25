@@ -13,7 +13,7 @@ function Header() {
             to="/"
             className={({ isActive }) => (isActive ? 'header--activeLink' : '')}
           >
-            Home
+            Time Machine
 
           </NavLink>
           <NavLink to="/phase2" className={({ isActive }) => (isActive ? 'header--activeLink' : '')}>Tic Tac Toe</NavLink>
