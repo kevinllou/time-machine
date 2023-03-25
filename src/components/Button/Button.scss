@@ -1,0 +1,14 @@
+button {
+  width: 120px;
+  height: 35px;
+  background-color: #e95f58;
+  color: black;
+  border: 2px solid rgb(70, 66, 66);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+button:hover {
+  background-color: #e95f58b2;
+}
