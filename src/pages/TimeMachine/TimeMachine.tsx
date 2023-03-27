@@ -3,11 +3,11 @@
 /* eslint-disable-next-line react/no-array-index-key */
 
 import { useState } from 'react';
+import COLORS from '../../constant/colors';
 import useTimeMachine from '../../hooks/useTimeMachine';
 import './TimeMachine.scss';
 
 function TimeMachine() {
-  const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown', 'red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown'];
   const [currentColorIndex, setCurrentColorIndex] = useState<number | null>(null);
   const [lastValueStored, colorHistory, setColorHistory] = useTimeMachine<number[]>([]);
   const [timeIndex, setTimeIndex] = useState<number>(-1);
@@ -52,7 +52,7 @@ function TimeMachine() {
     <div className="timeMachine">
       <div className="timeMachine__container">
         <div className="timeMachine__grid">
-          {colors.map((color, index) => (
+          {COLORS.map((color, index) => (
             <div
               role="presentation"
               key={index}
