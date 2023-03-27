@@ -1,0 +1,62 @@
+.board {
+  &__container {
+    display: flex;
+    gap: 2rem;
+  }
+  &__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  &__gridItems {
+    height: 100px;
+    width: 100px;
+    font-size: 2rem;
+    border: none;
+    background-color: rgb(233, 233, 233);
+    cursor: pointer;
+  }
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    button {
+      width: 120px;
+      height: 35px;
+      background-color: #e95f58;
+      color: black;
+      border: none;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    button:hover {
+      background-color: #e95f58b2;
+    }
+    button:disabled {
+      background-color: rgb(221, 221, 221);
+      border: 2px solid rgb(202, 202, 202);
+      pointer-events: none;
+    }
+  }
+  &__optionsButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  &__optionsMove {
+    font-family: 'Manrope', sans-serif;
+    span {
+        font-size: .8rem;
+    }
+  }
+  &__squareMove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: #f0f0f0;
+    font-size: 3rem;
+  }
+}

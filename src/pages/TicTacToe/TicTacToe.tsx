@@ -1,8 +1,9 @@
+import Board from '../../components/Board/Board';
 import './TicTacToe.scss';
 
 function TicTacToe() {
   return (
-    <div>TicTacToe</div>
+    <Board />
   );
 }
 
