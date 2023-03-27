@@ -41,7 +41,7 @@ function TimeMachine() {
   };
 
   const handleResumeClick = () => {
-    if (isTraveling && lastValueStored) {
+    if (isTraveling && lastValueStored !== undefined) {
       setCurrentColorIndex(colorHistory[colorHistory.indexOf(lastValueStored)]);
       setTimeIndex(colorHistory.indexOf(lastValueStored));
       setIsTraveling(false);
