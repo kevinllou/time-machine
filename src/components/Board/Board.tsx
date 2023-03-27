@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import calculateWinner from '../helper/calculateWinner';
 import Square from '../Square/Square';
 
 function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
   const [isLetterX, setIsLetterX] = useState(true);
+  const winnerPlayer = calculateWinner(squares);
 
   const handleClick = (index: number) => {
-    if (squares[index]) {
+    if (calculateWinner(squares) || squares[index]) {
       return;
     }
     squares[index] = isLetterX ? 'X' : 'O';
@@ -38,9 +40,18 @@ function Board() {
 
           </div>
           <div className="board__optionsMove">
-            <span>Next to move</span>
+            <span>{winnerPlayer ? 'Winner' : 'Next to move'}</span>
             <div className="board__squareMove">
-              O
+              {winnerPlayer ? (
+                <p>
+                  {winnerPlayer}
+                </p>
+              ) : (
+                <p>
+                  {isLetterX ? 'X' : 'O'}
+                </p>
+              )}
+
             </div>
           </div>
           <button type="button" onClick={handleRestart}>Restart</button>
@@ -49,5 +60,4 @@ function Board() {
     </section>
   );
 }
-
 export default Board;
