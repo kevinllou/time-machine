@@ -9,42 +9,48 @@ import './TimeMachine.scss';
 
 function TimeMachine() {
   const [currentColorIndex, setCurrentColorIndex] = useState<number | null>(null);
-  const [lastValueStored, colorHistory, setColorHistory] = useTimeMachine<number[]>([]);
-  const [timeIndex, setTimeIndex] = useState<number>(-1);
-  const [isTraveling, setIsTraveling] = useState<boolean>(false);
+  const {
+    lastValueStored,
+    history,
+    timeIndex,
+    isTraveling,
+    updateHistory,
+    updateIndex,
+    updateIsTraveling,
+  } = useTimeMachine<number[]>([]);
 
   const handleColorClick = (index: number) => {
-    const lastIndex = lastValueStored && colorHistory[colorHistory.indexOf(lastValueStored)];
+    const lastIndex = lastValueStored.current && history[history.indexOf(lastValueStored.current)];
     if (index !== lastIndex) {
       setCurrentColorIndex(index);
-      setColorHistory([...colorHistory, index]);
-      setTimeIndex(colorHistory.length);
+      updateHistory([...history, index]);
+      updateIndex(history.length);
     }
   };
 
   const handleNextClick = () => {
-    if (timeIndex < colorHistory.length - 1) {
+    if (timeIndex < history.length - 1) {
       const nextIndex = timeIndex + 1;
-      setCurrentColorIndex(colorHistory[nextIndex]);
-      setTimeIndex(nextIndex);
-      setIsTraveling(true);
+      setCurrentColorIndex(history[nextIndex]);
+      updateIndex(nextIndex);
+      updateIsTraveling(true);
     }
   };
 
   const handlePrevClick = () => {
     if (timeIndex > 0) {
       const prevIndex = timeIndex - 1;
-      setCurrentColorIndex(colorHistory[prevIndex]);
-      setTimeIndex(prevIndex);
-      setIsTraveling(true);
+      setCurrentColorIndex(history[prevIndex]);
+      updateIndex(prevIndex);
+      updateIsTraveling(true);
     }
   };
 
   const handleResumeClick = () => {
-    if (isTraveling && lastValueStored !== undefined) {
-      setCurrentColorIndex(colorHistory[colorHistory.indexOf(lastValueStored)]);
-      setTimeIndex(colorHistory.indexOf(lastValueStored));
-      setIsTraveling(false);
+    if (isTraveling && lastValueStored.current !== undefined) {
+      setCurrentColorIndex(history[history.indexOf(lastValueStored.current)]);
+      updateIndex(history.indexOf(lastValueStored.current));
+      updateIsTraveling(false);
     }
   };
 
@@ -67,13 +73,13 @@ function TimeMachine() {
           ))}
         </div>
         <div className="timeMachine__options">
-          <button onClick={handleNextClick} disabled={timeIndex === colorHistory.length - 1} type="button">
+          <button onClick={handleNextClick} disabled={timeIndex === history.length - 1} type="button">
             Next
           </button>
           <button onClick={handlePrevClick} disabled={timeIndex === -1 || timeIndex === 0} type="button">
             Previous
           </button>
-          <button onClick={handleResumeClick} disabled={timeIndex === colorHistory.length - 1} type="button">
+          <button onClick={handleResumeClick} disabled={timeIndex === history.length - 1} type="button">
             Resume
           </button>
         </div>
