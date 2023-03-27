@@ -1,10 +1,11 @@
 interface ISquare {
   value: string;
   styleClass : string;
+  handleClick: any;
 }
-function Square({ value, styleClass }: ISquare) {
+function Square({ value, styleClass, handleClick }: ISquare) {
   return (
-    <button type="button" className={styleClass}>
+    <button type="button" className={styleClass} onClick={handleClick}>
       {value}
     </button>
   );
