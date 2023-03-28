@@ -51,6 +51,7 @@ function Board() {
     setCurrentSquare(null);
     updateHistory([]);
     updateIndex(-1);
+    setIsLetterX(true);
   };
   return (
     <section className="board">
