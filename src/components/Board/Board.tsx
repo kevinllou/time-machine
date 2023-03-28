@@ -9,7 +9,6 @@ function Board() {
   const [isLetterX, setIsLetterX] = useState(true);
   const [currentSquare, setCurrentSquare] = useState<number | null>(null);
   const {
-    lastValueStored,
     history,
     timeIndex,
     isTraveling,
@@ -46,6 +45,18 @@ function Board() {
       updateIsTraveling(nextIndex !== history.length - 1);
     }
   };
+  const handleReplay = () => {
+    let index = history.length - 1;
+    const interval = setInterval(() => {
+      if (index < 0) {
+        clearInterval(interval);
+        return;
+      }
+      setCurrentSquare(history[index]);
+      // eslint-disable-next-line no-plusplus
+      index--;
+    }, 500);
+  };
   const handleRestart = () => {
     setSquares(Array(9).fill(null));
     setCurrentSquare(null);
@@ -74,7 +85,7 @@ function Board() {
         <div className="board__options">
           <div className="board__optionsButtons">
             <button type="button" onClick={handleNextClick} disabled={timeIndex === history.length - 1}>Next</button>
-            <button type="button">Replay</button>
+            <button type="button" onClick={handleReplay}>Replay</button>
             <button type="button" onClick={handlePrevious} disabled={timeIndex === -1 || timeIndex === 0}>Previous</button>
 
           </div>
