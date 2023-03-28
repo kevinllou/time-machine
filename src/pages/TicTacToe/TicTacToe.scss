@@ -1,6 +1,10 @@
 .board {
+  padding: 2rem 0;
   &__container {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 2rem;
   }
   &__grid {
@@ -48,7 +52,7 @@
   &__optionsMove {
     font-family: 'Manrope', sans-serif;
     span {
-        font-size: .8rem;
+      font-size: 0.8rem;
     }
   }
   &__squareMove {
@@ -58,5 +62,10 @@
     height: 100px;
     background-color: #f0f0f0;
     font-size: 3rem;
+  }
+  @media (min-width: 40em) {
+    &__container {
+      flex-direction: row;
+    }
   }
 }
