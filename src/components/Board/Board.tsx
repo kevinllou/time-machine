@@ -85,7 +85,7 @@ function Board() {
         <div className="board__options">
           <div className="board__optionsButtons">
             <button type="button" onClick={handleNextClick} disabled={timeIndex === history.length - 1}>Next</button>
-            <button type="button" onClick={handleReplay}>Replay</button>
+            <button type="button" onClick={handleReplay} disabled={!winnerPlayer}>Replay</button>
             <button type="button" onClick={handlePrevious} disabled={timeIndex === -1 || timeIndex === 0}>Previous</button>
 
           </div>
