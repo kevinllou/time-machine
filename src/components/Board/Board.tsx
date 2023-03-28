@@ -1,42 +1,80 @@
+/* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
+import useTimeMachine from '../../hooks/useTimeMachine';
 import calculateWinner from '../helper/calculateWinner';
 import Square from '../Square/Square';
 
 function Board() {
   const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
   const [isLetterX, setIsLetterX] = useState(true);
+  const [currentSquare, setCurrentSquare] = useState<number | null>(null);
+  const {
+    lastValueStored,
+    history,
+    timeIndex,
+    isTraveling,
+    updateHistory,
+    updateIndex,
+    updateIsTraveling,
+  } = useTimeMachine<number[]>([]);
   const winnerPlayer = calculateWinner(squares);
 
   const handleClick = (index: number) => {
-    if (calculateWinner(squares) || squares[index]) {
+    if (winnerPlayer || squares[index] || isTraveling) {
       return;
     }
+    setCurrentSquare(index);
+    updateHistory([...history, index]);
+    updateIndex(history.length);
     squares[index] = isLetterX ? 'X' : 'O';
     setSquares(squares);
     setIsLetterX(!isLetterX);
   };
+  const handlePrevious = () => {
+    if (timeIndex > 0) {
+      const prevIndex = timeIndex - 1;
+      setCurrentSquare(history[prevIndex]);
+      updateIndex(prevIndex);
+      updateIsTraveling(true);
+    }
+  };
+  const handleNextClick = () => {
+    if (timeIndex < history.length - 1) {
+      const nextIndex = timeIndex + 1;
+      setCurrentSquare(history[nextIndex]);
+      updateIndex(nextIndex);
+      updateIsTraveling(nextIndex !== history.length - 1);
+    }
+  };
   const handleRestart = () => {
     setSquares(Array(9).fill(null));
+    setCurrentSquare(null);
+    updateHistory([]);
+    updateIndex(-1);
   };
   return (
     <section className="board">
       <div className="board__container">
         <div className="board__grid">
-          <Square value={squares[0]} styleClass="board__gridItems" handleClick={() => handleClick(0)} />
-          <Square value={squares[1]} styleClass="board__gridItems" handleClick={() => handleClick(1)} />
-          <Square value={squares[2]} styleClass="board__gridItems" handleClick={() => handleClick(2)} />
-          <Square value={squares[3]} styleClass="board__gridItems" handleClick={() => handleClick(3)} />
-          <Square value={squares[4]} styleClass="board__gridItems" handleClick={() => handleClick(4)} />
-          <Square value={squares[5]} styleClass="board__gridItems" handleClick={() => handleClick(5)} />
-          <Square value={squares[6]} styleClass="board__gridItems" handleClick={() => handleClick(6)} />
-          <Square value={squares[7]} styleClass="board__gridItems" handleClick={() => handleClick(7)} />
-          <Square value={squares[8]} styleClass="board__gridItems" handleClick={() => handleClick(8)} />
+          {squares.map((square, index) => (
+            <Square
+              key={index}
+              value={square}
+              style={{
+                backgroundColor: currentSquare === index ? '#777777' : '',
+                color: currentSquare === index ? 'white' : '',
+                pointerEvents: isTraveling || winnerPlayer ? 'none' : 'auto',
+              }}
+              styleClass="board__gridItems"
+              handleClick={() => handleClick(index)}
+            />
+          ))}
         </div>
         <div className="board__options">
           <div className="board__optionsButtons">
-            <button type="button">Next</button>
-            <button type="button">Resume</button>
-            <button type="button">Previous</button>
+            <button type="button" onClick={handleNextClick} disabled={timeIndex === history.length - 1}>Next</button>
+            <button type="button">Replay</button>
+            <button type="button" onClick={handlePrevious} disabled={timeIndex === -1 || timeIndex === 0}>Previous</button>
 
           </div>
           <div className="board__optionsMove">
